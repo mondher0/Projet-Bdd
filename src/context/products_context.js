@@ -39,7 +39,7 @@ export const ProductsProvider = ({ children }) => {
   const fetchProducts = async (url) => {
     dispatch({ type: GET_PRODUCTS_BEGIN });
     try {
-      const response = await axios.get(`${url}?limit=2&page=1`);
+      const response = await axios.get(`${url}`);
       const products = response.data;
       console.log(response);
       console.log(products);
