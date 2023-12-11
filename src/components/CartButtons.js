@@ -7,7 +7,6 @@ import { useCartContext } from "../context/cart_context";
 import { useUserContext } from "../context/user_context";
 const CartButton = () => {
   const { closeSidebar } = useProductsContext();
-  const { total_items, clearCart } = useCartContext();
   const { myUser, logout } = useUserContext();
   const navigate = useNavigate();
   return (
@@ -16,7 +15,7 @@ const CartButton = () => {
         Cart
         <span className="cart-container">
           <FaShoppingCart />
-          <span className="cart-value">{total_items}</span>
+          <span className="cart-value"></span>
         </span>
       </Link>
       {myUser ? (
@@ -24,9 +23,8 @@ const CartButton = () => {
           type="button"
           className="auth-btn"
           onClick={() => {
-            clearCart();
             localStorage.removeItem("user");
-            logout({ returnTo: window.location.origin });
+            // logout({ returnTo: window.location.origin });
           }}
         >
           Logout <FaUserMinus />

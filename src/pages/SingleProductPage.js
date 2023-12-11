@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useProductsContext } from '../context/products_context';
-import { single_product_url as url } from '../utils/constants';
-import { formatPrice } from '../utils/helpers';
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useProductsContext } from "../context/products_context";
 import {
   Loading,
   Error,
@@ -10,9 +8,9 @@ import {
   AddToCart,
   Stars,
   PageHero,
-} from '../components';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+} from "../components";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 const SingleProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,15 +20,16 @@ const SingleProductPage = () => {
     single_product: product,
     fetchSingleProduct,
   } = useProductsContext();
+  console.log(product);
 
   useEffect(() => {
-    fetchSingleProduct(`${url}${id}`);
+    fetchSingleProduct(id);
     // eslint-disable-next-line
   }, [id]);
   useEffect(() => {
     if (error) {
       setTimeout(() => {
-        navigate('/');
+        navigate("/");
       }, 3000);
     }
     // eslint-disable-next-line
@@ -41,46 +40,38 @@ const SingleProductPage = () => {
   if (error) {
     return <Error />;
   }
-
-  const {
-    name,
-    price,
-    description,
-    stock,
-    stars,
-    reviews,
-    id: sku,
-    company,
-    images,
-  } = product;
+  const singleProduct = product?.product || {};
+  console.log(singleProduct);
+  const { name, price, description, stock, stars, reviews, image, brand } =
+    singleProduct || {};
   return (
     <Wrapper>
       <PageHero title={name} product />
-      <div className='section section-center page'>
-        <Link to='/products' className='btn'>
+      <div className="section section-center page">
+        <Link to="/products" className="btn">
           back to products
         </Link>
-        <div className='product-center'>
-          <ProductImages images={images} />
-          <section className='content'>
+        <div className="product-center">
+          <ProductImages images={image} />
+          <section className="content">
             <h2>{name}</h2>
             <Stars stars={stars} reviews={reviews} />
-            <h5 className='price'>{formatPrice(price)}</h5>
-            <p className='desc'>{description}</p>
-            <p className='info'>
+            <h5 className="price">{price}$</h5>
+            <p className="desc">{description}</p>
+            <p className="info">
               <span>Available : </span>
-              {stock > 0 ? 'In stock' : 'out of stock'}
+              {stock > 0 ? "In stock" : "out of stock"}
             </p>
-            <p className='info'>
+            <p className="info">
               <span>SKU :</span>
-              {sku}
+              {singleProduct?.id}
             </p>
-            <p className='info'>
+            <p className="info">
               <span>Brand :</span>
-              {company}
+              {brand}
             </p>
             <hr />
-            {stock > 0 && <AddToCart product={product} />}
+            {stock > 0 && <AddToCart />}
           </section>
         </div>
       </div>
