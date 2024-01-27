@@ -1,15 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { decrease, increase } from "../features/cart/cart-slice";
 
-const AmountButtons = ({}) => {
+const AmountButtons = ({ id }) => {
+  const { amount } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   return (
     <Wrapper className="amount-btns">
-      <button type="button" className="amount-btn">
+      <button
+        type="button"
+        className="amount-btn"
+        onClick={() => {
+          dispatch(decrease({ id }));
+        }}
+      >
         <FaMinus />
       </button>
-      <h2 className="amount"></h2>
-      <button type="button" className="amount-btn">
+      <h2 className="amount">{amount}</h2>
+      <button
+        type="button"
+        className="amount-btn"
+        onClick={() => dispatch(increase({ id }))}
+      >
         <FaPlus />
       </button>
     </Wrapper>

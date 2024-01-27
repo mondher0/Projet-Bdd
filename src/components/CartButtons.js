@@ -3,19 +3,20 @@ import { FaShoppingCart, FaUserMinus, FaUserPlus } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useProductsContext } from "../context/products_context";
-import { useCartContext } from "../context/cart_context";
+import { useSelector } from "react-redux";
 import { useUserContext } from "../context/user_context";
 const CartButton = () => {
   const { closeSidebar } = useProductsContext();
   const { myUser, logout } = useUserContext();
   const navigate = useNavigate();
+  const { amount } = useSelector((state) => state.cart);
   return (
     <Wrapper className="cart-btn-wrapper">
       <Link to="/cart" className="cart-btn" onClick={closeSidebar}>
         Cart
         <span className="cart-container">
           <FaShoppingCart />
-          <span className="cart-value"></span>
+          <span className="cart-value">{amount}</span>
         </span>
       </Link>
       {myUser ? (

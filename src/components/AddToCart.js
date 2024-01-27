@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
-import { useCartContext } from "../context/cart_context";
 import AmountButtons from "./AmountButtons";
-const AddToCart = ({}) => {
+import { addCart } from "../features/cart/cart-slice";
+import { useDispatch } from "react-redux";
+const AddToCart = ({ id, product }) => {
+  console.log(product);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Wrapper>
       <div className="colors">
@@ -27,11 +31,18 @@ const AddToCart = ({}) => {
         </div>
       </div>
       <div className="btn-container">
-        <AmountButtons />
+        <AmountButtons id={id} />
 
-        <Link to="/cart" className="btn">
+        <button
+          // to="/cart"
+          className="btn"
+          onClick={() => {
+            dispatch(addCart({ product }));
+            
+          }}
+        >
           add to cart
-        </Link>
+        </button>
       </div>
     </Wrapper>
   );
