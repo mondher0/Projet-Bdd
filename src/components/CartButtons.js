@@ -10,21 +10,16 @@ const CartButton = () => {
   const { myUser, logout } = useUserContext();
   const navigate = useNavigate();
   const { amount } = useSelector((state) => state.cart);
+  const token = localStorage.getItem("token");
   return (
     <Wrapper className="cart-btn-wrapper">
-      <Link to="/cart" className="cart-btn" onClick={closeSidebar}>
-        Cart
-        <span className="cart-container">
-          <FaShoppingCart />
-          <span className="cart-value">{amount}</span>
-        </span>
-      </Link>
-      {myUser ? (
+      {token ? (
         <button
           type="button"
           className="auth-btn"
           onClick={() => {
-            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            window.location.href = "/";
             // logout({ returnTo: window.location.origin });
           }}
         >
