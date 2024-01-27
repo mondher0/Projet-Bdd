@@ -19,6 +19,7 @@
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "reactjs-popup": "^2.0.6",
     "stripe": "^10.16.0",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"

@@ -1,31 +1,63 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import styled from "styled-components";
+import axiosInstance from "../utils/helpers";
+import { baseUrl } from "../utils/constants";
 const Contact = () => {
+  const [report, setReport] = useState();
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const token = localStorage.getItem("token");
+
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!token) {
+      window.location.href = "/login";
+      return;
+    }
+    try {
+      const data = {
+        comment: report,
+      };
+      setIsLoading(true);
+      const response = await axiosInstance.post(`${baseUrl}reports`, data);
+      console.log(response);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setError(true);
+      console.log(error);
+    }
+  };
   return (
     <Wrapper>
-      <div className='section-center'>
-        <h3>Join our newsletter and get 20% off</h3>
-        <div className='content'>
+      <div className="section-center">
+        {error && alert("Something went wrong")}
+        <h3>You have a problem report us</h3>
+        <div className="content">
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
             sint unde quaerat ratione soluta veniam provident adipisci cumque
             eveniet tempore?
           </p>
-          <form className='contact-form'>
-            <input
-              type='email'
-              className='form-input'
-              placeholder='enter email'
-            />
-            <button type='submit' className='submit-btn'>
-              subscribe
+          <form className="contact-form" onSubmit={handleSubmit}>
+            <textarea
+              type="email"
+              className="form-input"  
+              onChange={(e) => {
+                setError(false);
+                setReport(e.target.value);
+              }}
+            ></textarea>
+            <button type="submit" className="submit-btn">
+              {isLoading ? "Sending..." : "Send"}
             </button>
           </form>
         </div>
       </div>
     </Wrapper>
-  )
-}
+  );
+};
 const Wrapper = styled.section`
   padding: 5rem 0;
   h3 {
@@ -89,6 +121,6 @@ const Wrapper = styled.section`
   @media (min-width: 1280px) {
     padding: 15rem 0;
   }
-`
+`;
 
-export default Contact
+export default Contact;
